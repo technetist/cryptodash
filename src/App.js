@@ -23,12 +23,42 @@ const Content = styled.div`
   
 `;
 
+const checkFirstVisit = () => {
+  let cryptoDashData = localStorage.getItem('cryptoDash');
+  if (!cryptoDashData) {
+    return {
+      firstVisit: true,
+      page: 'settings'
+    }
+  }
+};
+
 class App extends Component {
   state = {
-    page: 'dashboard'
+    page: 'dashboard',
+    ...checkFirstVisit()
   };
   displayingDashboard = () => this.state.page === 'dashboard';
   displayingSettings = () => this.state.page === 'settings';
+  firstVisitMessage = () => {
+    if (this.state.firstVisit) {
+      return <div>Welcome to CrytoDash,
+        please select you favorite coins</div>
+    }
+  };
+  confirmFavorites = () => {
+    localStorage.setItem('cryptoDash', 'test');
+    this.setState({
+      page: 'dashboard',
+      firstVisit: false
+    })
+  };
+  settingsContent = () => {
+    return <div> {this.firstVisitMessage()}
+      <div onClick={this.confirmFavorites}>Confirm Favorites</div>
+    </div>
+  };
+
   render() {
     return (
       <AppLayout>
@@ -38,15 +68,21 @@ class App extends Component {
           </Logo>
           <div>
           </div>
-          <ControlButton onClick={()=>{this.setState({page: 'dashboard'})}} active={this.displayingDashboard()}>
+          {!this.state.firstVisit && (
+            <ControlButton onClick={() => {
+            this.setState({page: 'dashboard'})
+          }} active={this.displayingDashboard()}>
             Dashboard
-          </ControlButton>
-          <ControlButton onClick={()=>{this.setState({page: 'settings'})}} active={this.displayingSettings()}>
+          </ControlButton> )}
+          {!this.state.firstVisit && (
+          <ControlButton onClick={() => {
+            this.setState({page: 'settings'})
+          }} active={this.displayingSettings()}>
             Settings
-          </ControlButton>
+          </ControlButton> )}
         </Bar>
         <Content>
-          I'm the {this.state.page} page
+          {this.displayingSettings() && this.settingsContent()}
         </Content>
       </AppLayout>
     );
