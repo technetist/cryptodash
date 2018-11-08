@@ -2201,6 +2201,10 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
+cryptocompare@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/cryptocompare/-/cryptocompare-0.6.0.tgz#52015d4bc6c3c3ba58fa27bfd536e9418ed6f705"
+
 css-color-keywords@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/css-color-keywords/-/css-color-keywords-1.0.0.tgz#fea2616dc676b2962686b3af8dbdbe180b244e05"

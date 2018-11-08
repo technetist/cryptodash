@@ -3,6 +3,8 @@ import './App.css';
 import styled from 'styled-components';
 import AppBar from "./AppBar";
 
+const cc = require('cryptocompare');
+
 const AppLayout = styled.div`
   padding: 40px;
 `;
@@ -23,8 +25,15 @@ const checkFirstVisit = () => {
 
 class App extends Component {
   state = {
-    page: 'dashboard',
+    page: 'settings',
     ...checkFirstVisit()
+  };
+  componentDidMount = () => {
+    this.fetchCoins();
+  };
+  fetchCoins = async () => {
+    let coinList = (await cc.coinList()).Data;
+    this.setState({coinList})
   };
   displayingDashboard = () => this.state.page === 'dashboard';
   displayingSettings = () => this.state.page === 'settings';
@@ -46,14 +55,19 @@ class App extends Component {
       <div onClick={this.confirmFavorites}>Confirm Favorites</div>
     </div>
   };
+  loadingContent = () => {
+    if (!this.state.coinList) {
+      return <div>Loading Coins</div>
+    }
+  };
 
   render() {
     return (
       <AppLayout>
         {AppBar.call(this)}
-        <Content>
+        {this.loadingContent() || <Content>
           {this.displayingSettings() && this.settingsContent()}
-        </Content>
+        </Content>}
       </AppLayout>
     );
   }
