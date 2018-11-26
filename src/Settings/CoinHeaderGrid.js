@@ -1,5 +1,6 @@
 import React from 'react';
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
+import {DeletableTile} from "../Shared/Tile";
 
 export const CoinHeaderGridStyled = styled.div`
   display: grid;
@@ -10,10 +11,25 @@ export const CoinSymbol = styled.div`
   justify-self: right;
 `;
 
-export default function ({name, symbol}) {
+const DeleteIcon = styled.div`
+  justify-self: right;
+  display: none;
+  ${DeletableTile}:hover & {
+    display: block;
+    color: red;
+  }
+`;
+
+export default function ({name, symbol, topSection}) {
   return (
     <CoinHeaderGridStyled>
       <div>{name}</div>
+      {topSection ? (
+        <DeleteIcon> x </DeleteIcon>
+      ) : (
+        <CoinSymbol>{symbol}</CoinSymbol>
+      )
+      }
       <CoinSymbol> {symbol} </CoinSymbol>
     </CoinHeaderGridStyled>
   )
